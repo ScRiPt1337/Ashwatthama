@@ -16,7 +16,7 @@
 Ashwatthama botnet work over http  use github and serveo no portforwarding needed
 
 [![Python 3.8](https://img.shields.io/badge/python-3.8-yellow.svg)](https://www.python.org/)
-[![go 1.13](https://img.shields.io/badge/go-1.13-red.svg)](https://golang.org/.org/)
+[![go 1.13](https://img.shields.io/badge/go-1.13-red.svg)](https://golang.org/)
 
 ### Requirement
 
