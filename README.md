@@ -43,6 +43,13 @@ Ashwatthama botnet work over http  use github and serveo no portforwarding neede
     }}
 ```
 
+### Usage
+* First create a empty github repo
+* run control.py  
+  - python3 control.py
+* For the first time its will ask for your repo enter your repo url
+* use command app::help to see all options
+
 ### What next
 * [ ] Persistent
 * [ ] anti-debugging
@@ -53,4 +60,3 @@ Ashwatthama botnet work over http  use github and serveo no portforwarding neede
 ![screenshot](https://raw.githubusercontent.com/ScRiPt1337/Ashwatthama/master/img/Capture.PNG)
 
 ![screenshot](https://raw.githubusercontent.com/ScRiPt1337/Ashwatthama/master/img/Capture1.PNG)
-
