@@ -290,6 +290,7 @@ def helper():
     help = """
     {{
         ####Configration>>>
+        	!command {{ ###run localy os command }}
             app::build {{ ###build payload >>> }}
             app::config {{ ###Change github repo and reconfigure >>> }}
             app::quit {{ ###quit >>> }}
