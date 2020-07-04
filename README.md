@@ -42,6 +42,12 @@ Ashwatthama botnet work over http  use github and serveo no portforwarding neede
             
     }}
 ```
+
+### What next
+* [ ] Persistent
+* [ ] anti-debugging
+* [ ] VM detection
+
 ### Screenshot
 
 ![screenshot](https://raw.githubusercontent.com/ScRiPt1337/Ashwatthama/master/img/Capture.PNG)
