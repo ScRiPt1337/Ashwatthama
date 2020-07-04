@@ -42,5 +42,8 @@ Ashwatthama botnet work over http  use github and serveo no portforwarding neede
             
     }}
 ```
+### Screenshot
 
-![screenshot](https://markdown-here.com/img/icon256.png)
+![screenshot](https://raw.githubusercontent.com/ScRiPt1337/Ashwatthama/master/img/Capture.PNG)
+
+![screenshot](https://raw.githubusercontent.com/ScRiPt1337/Ashwatthama/master/img/Capture1.PNG)
