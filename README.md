@@ -1,6 +1,6 @@
 # Ashwatthama
 
-### currently its not working become we are using serveo tunneling services to expose out local server but i think serveo stop working so i will soon update it and switch to ngrok
+### currently its not working because we are using serveo tunneling services to expose out local server but i think serveo stop working so i will soon update it and switch to ngrok
 
 ```python
        (                                                        
