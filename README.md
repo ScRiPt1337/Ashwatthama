@@ -1,6 +1,5 @@
 # Ashwatthama
 
-### currently its not working because we are using serveo tunneling services to expose our local server but i think serveo stop working so i will soon update it and switch to ngrok
 
 ```python
        (                                                        

