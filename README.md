@@ -56,6 +56,9 @@ Ashwatthama botnet work over http  use github and serveo and ngrok no portforwar
 * [ ] anti-debugging
 * [ ] VM detection
 
+### Not working currently
+* Because rawgitsuck server is down But you can host it by your own self if you want you can get it from here https://github.com/ScRiPt1337/raw_Git-Suck and replace the rawgitsuck.tk inside control.py
+
 ### Screenshot
 
 ![screenshot](https://raw.githubusercontent.com/ScRiPt1337/Ashwatthama/master/img/Capture.PNG)
