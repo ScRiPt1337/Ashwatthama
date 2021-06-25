@@ -242,9 +242,9 @@ def writeonrev(option):
         git = repox.replace("https://github.com", "https://raw.githubusercontent.com").split("/")
     git[1] = "//"
     if rawtogit(git).endswith(".git"):
-        rawgit = "http://rawgitsuck.tk/raw?git=" + rawtogit(git)[:-4] + "/master/urlx.txt"
+        rawgit = "https://rawgitsuck.herokuapp.com/raw?git=" + rawtogit(git)[:-4] + "/master/urlx.txt"
     else:
-        rawgit = "http://rawgitsuck.tk/raw?git=" + rawtogit(git) + "/master/urlx.txt"
+        rawgit = "https://rawgitsuck.herokuapp.com/raw?git=" + rawtogit(git) + "/master/urlx.txt"
     text = """\turlx, _ := reciver(string("{rawgit}"))""".format(rawgit=rawgit)
     printfc("###UrL Resolver set to >>> " + str(rawgit), "green")
     if option == 3 or option == 4:
